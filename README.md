@@ -23,7 +23,7 @@ C# Live Templates for unit testing include:
 Other C# Live Templates include:
 
 - Specflow (shortcuts start with `specflow`)
-- Test Builder (shortcuts start with `testbuilder`)
+- Builder (shortcuts start with `builder`)
 - Simple Factory (shortcuts start with `factory`)
 - log4net (shortcuts start with `log4net`)
 - Override (shortcuts start with `override`)
@@ -31,8 +31,8 @@ Other C# Live Templates include:
 
 Other templates include:
 
-- Markdown
-- Cake
+- Markdown (accessible only in `*.md` files)
+- Cake (accessible only in `*.cake` files)
 - .NET XML documentation (shortcuts start with `xmldoc`)
 
 ### Usage
@@ -44,7 +44,7 @@ To insert a live template simply start typing its shortcut in your C# file (or p
 
 C# file templates include:
 
-- Assembly info class
+- Assembly info file
 - Builder class
 - Exception class
 - NUnit class

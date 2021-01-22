@@ -2,6 +2,8 @@
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=10EDAD1B76F91747BF4B59D67A3183FA/@KeyIndexDefined">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=10EDAD1B76F91747BF4B59D67A3183FA/Description/@EntryValue">Test Fixture for Exception</s:String>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=10EDAD1B76F91747BF4B59D67A3183FA/Text/@EntryValue">using System;&#xD;
+using System.IO;&#xD;
+using System.Runtime.Serialization.Formatters.Binary;&#xD;
 using NUnit.Framework;&#xD;
 &#xD;
 namespace $NAMESPACE$&#xD;
@@ -9,6 +11,8 @@ namespace $NAMESPACE$&#xD;
     [TestFixture]&#xD;
     public class $CLASS$&#xD;
     {&#xD;
+		private const string Message = "some message";&#xD;
+&#xD;
         [Test]&#xD;
         public void WhenNoArgs_ThenSetMessageToDefault()&#xD;
         {&#xD;
@@ -20,9 +24,9 @@ namespace $NAMESPACE$&#xD;
         [Test]&#xD;
         public void WhenMessageSpecified_ThenSetMessage()&#xD;
         {&#xD;
-            var sut = new $SUT_EXCEPTION_CLASS$("Some message.");&#xD;
+            var sut = new $SUT_EXCEPTION_CLASS$(Message);&#xD;
 &#xD;
-            Assert.That(sut.Message, Is.EqualTo("Some message."));&#xD;
+            Assert.That(sut.Message, Is.EqualTo(Message));&#xD;
         }&#xD;
 &#xD;
         [Test]&#xD;
@@ -30,24 +34,44 @@ namespace $NAMESPACE$&#xD;
         {&#xD;
             var innerException = new Exception();&#xD;
 &#xD;
-            var sut = new $SUT_EXCEPTION_CLASS$("Some message.", innerException);&#xD;
+            var sut = new $SUT_EXCEPTION_CLASS$(Message, innerException);&#xD;
 &#xD;
-            Assert.That(sut.Message, Is.EqualTo("Some message."));&#xD;
+            Assert.That(sut.Message, Is.EqualTo(Message));&#xD;
             Assert.That(sut.InnerException, Is.SameAs(innerException));&#xD;
+        }&#xD;
+&#xD;
+		[Test]&#xD;
+        public void WhenSerialized_ThenDeserializeCorrectly()&#xD;
+        {&#xD;
+            var sut = new $SUT_EXCEPTION_CLASS$(Message);&#xD;
+&#xD;
+            var formatter = new BinaryFormatter();&#xD;
+            &#xD;
+            using (var stream = new MemoryStream())&#xD;
+            {&#xD;
+                formatter.Serialize(stream, sut);&#xD;
+&#xD;
+                stream.Seek(0, 0);&#xD;
+&#xD;
+                var result = ($SUT_EXCEPTION_CLASS$)formatter.Deserialize(stream);&#xD;
+&#xD;
+                Assert.That(result.ToString(), Is.EqualTo(sut.ToString()));&#xD;
+            }&#xD;
         }&#xD;
     }&#xD;
 }</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=10EDAD1B76F91747BF4B59D67A3183FA/Reformat/@EntryValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=10EDAD1B76F91747BF4B59D67A3183FA/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
-	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=10EDAD1B76F91747BF4B59D67A3183FA/CustomProperties/=FileName/@EntryIndexedValue">ExceptionTests</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=10EDAD1B76F91747BF4B59D67A3183FA/Categories/=Imported_002015_002F04_002F2020/@EntryIndexedValue">Imported 15/04/2020</s:String>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=10EDAD1B76F91747BF4B59D67A3183FA/CustomProperties/=Extension/@EntryIndexedValue">cs</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=10EDAD1B76F91747BF4B59D67A3183FA/CustomProperties/=FileName/@EntryIndexedValue">ExceptionTests</s:String>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=10EDAD1B76F91747BF4B59D67A3183FA/CustomProperties/=ValidateFileName/@EntryIndexedValue">False</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=10EDAD1B76F91747BF4B59D67A3183FA/Applicability/=File/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=10EDAD1B76F91747BF4B59D67A3183FA/Scope/=E8F0594528C33E45BBFEC6CFE851095D/@KeyIndexDefined">True</s:Boolean>
-	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=10EDAD1B76F91747BF4B59D67A3183FA/Scope/=E8F0594528C33E45BBFEC6CFE851095D/Type/@EntryValue">InCSharpProjectFile</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=10EDAD1B76F91747BF4B59D67A3183FA/Scope/=ABDFB0613102DF4DBB59387506ADA616/@KeyIndexDefined">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=10EDAD1B76F91747BF4B59D67A3183FA/Scope/=ABDFB0613102DF4DBB59387506ADA616/Type/@EntryValue">InProjectWithReference</s:String>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=10EDAD1B76F91747BF4B59D67A3183FA/Scope/=ABDFB0613102DF4DBB59387506ADA616/CustomProperties/=mask/@EntryIndexedValue">nunit.framework</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=10EDAD1B76F91747BF4B59D67A3183FA/Scope/=E8F0594528C33E45BBFEC6CFE851095D/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=10EDAD1B76F91747BF4B59D67A3183FA/Scope/=E8F0594528C33E45BBFEC6CFE851095D/Type/@EntryValue">InCSharpProjectFile</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=10EDAD1B76F91747BF4B59D67A3183FA/Field/=NAMESPACE/@KeyIndexDefined">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=10EDAD1B76F91747BF4B59D67A3183FA/Field/=NAMESPACE/Expression/@EntryValue">fileDefaultNamespace()</s:String>
 	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=10EDAD1B76F91747BF4B59D67A3183FA/Field/=NAMESPACE/InitialRange/@EntryValue">-1</s:Int64>
